@@ -59,12 +59,15 @@ const App = () => {
       <BookForm addBook={addBook} editBook={editBook} updateBook={updateBook} />
       <Search searchTerm={searchTerm} setSearchTerm={handleSearch} />
       <BookList books={paginatedBooks} setEditBook={setEditBook} deleteBook={deleteBook} />
+      <div className="pagination">
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         goToNextPage={goToNextPage}
         goToPreviousPage={goToPreviousPage}
       />
+      </div>
+     
     </div>
   );
 };
