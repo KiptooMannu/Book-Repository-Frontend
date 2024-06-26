@@ -3,16 +3,15 @@ import './BookItem.scss';
 
 const BookItem = ({ book, setEditBook, deleteBook }) => {
   return (
-    <div className="book-item">
-      <h3>{book.title}</h3>
-      <div className="book-details">
-      <p>{book.author}</p>
-      <p>{book.year}</p>
-      </div>
-     
-      <button className="edit-button" onClick={() => setEditBook(book)}>Edit</button>
-      <button className="delete-button" onClick={() => deleteBook(book.id)}>Delete</button>
-    </div>
+    <tr className="book-item">
+      <td>{book.title}</td>
+      <td>{book.author}</td>
+      <td>{book.year}</td>
+      <td>
+        <button className="edit-button" onClick={() => setEditBook(book)}>Edit</button>
+        <button className="delete-button" onClick={() => deleteBook(book.id)}>Delete</button>
+      </td>
+    </tr>
   );
 };
 

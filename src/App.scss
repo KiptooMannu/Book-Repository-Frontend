@@ -1,6 +1,9 @@
 .app {
+ 
   max-width: 800px;
-  margin: 0 auto;
+margin-top: 40px;
+margin-right: auto;
+margin-left: auto;
   padding: 20px;
   box-shadow: 0 0 200px rgba(0, 0, 0, 0.1);
  background-color: rgba(245, 245, 245, 0.788);
@@ -11,4 +14,7 @@
 }
 body{
 background-color: rgb(132, 141, 141);
+margin: 0;
+padding: 0;
+max-height: 100vh;
 }

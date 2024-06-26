@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './BookForm.scss';
 
-const BookForm = ({ addBook, editBook, updateBook, clearEditBook }) => {
+const BookForm = ({ addBook, updateBook, editBook }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [year, setYear] = useState('');
@@ -11,25 +11,20 @@ const BookForm = ({ addBook, editBook, updateBook, clearEditBook }) => {
       setTitle(editBook.title);
       setAuthor(editBook.author);
       setYear(editBook.year);
-    } else {
-      setTitle('');
-      setAuthor('');
-      setYear('');
     }
   }, [editBook]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const book = { title, author, year, id: editBook ? editBook.id : Date.now() };
     if (editBook) {
-      updateBook({ ...editBook, title, author, year });
-      clearEditBook();
+      updateBook(book);
     } else {
-      addBook({ id: Date.now(), title, author, year });
+      addBook(book);
     }
     setTitle('');
     setAuthor('');
     setYear('');
-    clearEditBook();
   };
 
   return (
@@ -55,7 +50,8 @@ const BookForm = ({ addBook, editBook, updateBook, clearEditBook }) => {
         onChange={(e) => setYear(e.target.value)}
         required
       />
-      <button type="submit">{editBook ? 'Update' : 'Add'}</button>
+      <button type="submit">{editBook ? 'Update' : 'Add'} Book</button>
+      
     </form>
   );
 };
