@@ -1,28 +1,61 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './BookForm.scss';
 
-const BookForm = ({ addBook }) => {
-  const titleRef = useRef();
-  const authorRef = useRef();
-  const yearRef = useRef();
+const BookForm = ({ addBook, editBook, updateBook, clearEditBook }) => {
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [year, setYear] = useState('');
+
+  useEffect(() => {
+    if (editBook) {
+      setTitle(editBook.title);
+      setAuthor(editBook.author);
+      setYear(editBook.year);
+    } else {
+      setTitle('');
+      setAuthor('');
+      setYear('');
+    }
+  }, [editBook]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newBook = {
-      title: titleRef.current.value,
-      author: authorRef.current.value,
-      year: yearRef.current.value,
-    };
-    addBook(newBook);
-    e.target.reset();
+    if (editBook) {
+      updateBook({ ...editBook, title, author, year });
+      clearEditBook();
+    } else {
+      addBook({ id: Date.now(), title, author, year });
+    }
+    setTitle('');
+    setAuthor('');
+    setYear('');
+    clearEditBook();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="book-form">
-      <input type="text" ref={titleRef} placeholder="Title" required />
-      <input type="text" ref={authorRef} placeholder="Author" required />
-      <input type="number" ref={yearRef} placeholder="Publication Year" required />
-      <button type="submit">Add Book</button>
+    <form className="book-form" onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="Author"
+        value={author}
+        onChange={(e) => setAuthor(e.target.value)}
+        required
+      />
+      <input
+        type="number"
+        placeholder="Year"
+        value={year}
+        onChange={(e) => setYear(e.target.value)}
+        required
+      />
+      <button type="submit">{editBook ? 'Update' : 'Add'}</button>
     </form>
   );
 };

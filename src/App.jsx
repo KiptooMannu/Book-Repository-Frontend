@@ -11,14 +11,16 @@ const App = () => {
   const [books, dispatch] = useBooksReducer([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [editBook, setEditBook] = useState(null); // Add this line
   const booksPerPage = 5;
 
   const addBook = (book) => {
     dispatch({ type: 'ADD_BOOK', payload: book });
   };
 
-  const updateBook = (id) => {
-    // Logic to update a book
+  const updateBook = (book) => {
+    dispatch({ type: 'UPDATE_BOOK', payload: book });
+    setEditBook(null); 
   };
 
   const deleteBook = (id) => {
@@ -47,12 +49,16 @@ const App = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   }, []);
 
+  const clearEditBook = () => {
+    setEditBook(null);
+  };
+
   return (
     <div className="app">
       <Header />
-      <BookForm addBook={addBook} />
+      <BookForm addBook={addBook} editBook={editBook} updateBook={updateBook} />
       <Search searchTerm={searchTerm} setSearchTerm={handleSearch} />
-      <BookList books={paginatedBooks} updateBook={updateBook} deleteBook={deleteBook} />
+      <BookList books={paginatedBooks} setEditBook={setEditBook} deleteBook={deleteBook} />
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
