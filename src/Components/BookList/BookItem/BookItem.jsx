@@ -8,9 +8,11 @@ const BookItem = ({ book, setEditBook, deleteBook }) => {
       <td>{book.author}</td>
       <td>{book.year}</td>
       <td>
-        <button className="edit-button" onClick={() => setEditBook(book)}>Edit</button>
-        <button className="delete-button" onClick={() => deleteBook(book.id)}>Delete</button>
-      </td>
+        <div className="buttons">
+          <button className="edit-button" onClick={() => setEditBook(book)}>Edit</button>
+          <button className="delete-button" onClick={() => deleteBook(book.id)}>Delete</button>
+        </div>
+   </td>
     </tr>
   );
 };
