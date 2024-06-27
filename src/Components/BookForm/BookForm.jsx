@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { addBook, updateBook } from '../../context/Apicontext'; // Import API functions
 import './BookForm.scss';
 
-
-const BookForm = ({ addBook, updateBook, editBook }) => {
+const BookForm = ({ editBook, refreshBooks }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [year, setYear] = useState('');
@@ -15,17 +15,18 @@ const BookForm = ({ addBook, updateBook, editBook }) => {
     }
   }, [editBook]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const book = { title, author, year, id: editBook ? editBook.id : Date.now() };
     if (editBook) {
-      updateBook(book);
+      await updateBook(book); // Use API to update book
     } else {
-      addBook(book);
+      await addBook(book); // Use API to add book
     }
     setTitle('');
     setAuthor('');
     setYear('');
+    refreshBooks(); // Refresh the book list
   };
 
   return (
@@ -52,7 +53,6 @@ const BookForm = ({ addBook, updateBook, editBook }) => {
         required
       />
       <button type="submit">{editBook ? 'Update' : 'Add'} Book</button>
-      
     </form>
   );
 };

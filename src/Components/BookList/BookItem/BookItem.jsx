@@ -12,7 +12,7 @@ const BookItem = ({ book, setEditBook, deleteBook }) => {
           <button className="edit-button" onClick={() => setEditBook(book)}>Edit</button>
           <button className="delete-button" onClick={() => deleteBook(book.id)}>Delete</button>
         </div>
-   </td>
+      </td>
     </tr>
   );
 };
