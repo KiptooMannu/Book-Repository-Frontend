@@ -13,6 +13,7 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [editBook, setEditBook] = useState(null);
+  const [loading, setLoading] = useState(true);
   const booksPerPage = 5;
 
   // Fetch books from the API when the component mounts
@@ -24,6 +25,8 @@ const App = () => {
         dispatch({ type: 'SET_BOOKS', payload: response }); // Update books state
       } catch (error) {
         console.error('Failed to fetch books:', error);
+      } finally {
+        setLoading(false); // Set loading to false regardless of success or failure
       }
     };
 
@@ -48,9 +51,11 @@ const App = () => {
   };
 
   // Filter books based on searchTerm
-  const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredBooks = Array.isArray(books) && books.length > 0
+    ? books.filter((book) =>
+        book.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   // Pagination logic
   const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
@@ -78,7 +83,11 @@ const App = () => {
       <Header />
       <BookForm addBook={addBook} editBook={editBook} updateBook={updateBook} />
       <Search searchTerm={searchTerm} setSearchTerm={handleSearch} />
-      <BookList books={paginatedBooks} setEditBook={setEditBook} deleteBook={deleteBook} />
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <BookList books={paginatedBooks} setEditBook={setEditBook} deleteBook={deleteBook} />
+      )}
       <div className="pagination">
         <Pagination
           currentPage={currentPage}
